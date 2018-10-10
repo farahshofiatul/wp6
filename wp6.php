@@ -18,9 +18,10 @@ class ajaxAutocomplete{
 	 		$title = $_POST["cf-title"];
 			$query  = new WP_Query(  
     			array (  
-        			'post_type' => 'post',  
+        			'post_type' => 'post',
+        			'posts_per_page' => 5  
     			)  
-			);
+			); 
 			$post = $query->posts;
 			foreach ($post as $value) {
 				if($value->post_title == $title){ 
