@@ -11,14 +11,14 @@ class ajaxAutocomplete{
 		add_shortcode('wp6_training', array($this, 'field'));
 		add_action( 'wp_enqueue_scripts', array($this,'autocomplete_enqueue_scripts'));
 		add_action( 'wp_ajax_my_action', array($this,'my_action'));
+		add_action( 'wp_ajax_nopriv_my_action', array($this,'my_action' ));
 	}
 
 
 	function field(){
 		$big = 999999999;
 	 	$format = empty( $permalinks ) ? '&page=%#%' : 'page/%#%/';
-	 	if ( isset( $_GET['cf-submitted'] ) ) {
-	 		
+	 	if ( isset( $_GET['cf-submitted'] ) ) {		
 	 		$title = $_GET["cf-title"];
 	 		$paged = ( get_query_var( 'paged' ) ) ? absint( get_query_var( 'paged' ) ) : 1;
 			$query  = new WP_Query(  
