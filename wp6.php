@@ -13,23 +13,35 @@ class ajaxAutocomplete{
 		add_action( 'wp_ajax_my_action', array($this,'my_action'));
 	}
 
+
 	function field(){
 	 	if ( isset( $_POST['cf-submitted'] ) ) {
+	 		$big = 999999999;
+	 		$format = empty( $permalinks ) ? '&page=%#%' : 'page/%#%/';
 	 		$title = $_POST["cf-title"];
+	 		$paged = ( get_query_var( 'paged' ) ) ? absint( get_query_var( 'paged' ) ) : 1;
 			$query  = new WP_Query(  
     			array (  
         			'post_type' => 'post',
-        			'posts_per_page' => 5
+        			'posts_per_page' => 3,
+        			's' => $title,
+        			'paged' => $paged
     			)  
 			); 
 			$post = $query->posts;
 			foreach ($post as $value) {
-				if (strrchr($value->post_title,$title)){
-					echo $value->post_title.'</br>';
-					echo $value->post_content.'</br>';
-				}
-			}		   
+				echo $value->post_title.'</br>';
+				echo $value->post_content.'</br>';
+			}	
+			echo paginate_links( array(
+				'base' => str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
+				'format' => '/page/%#%',
+				'current' => max( 1, get_query_var('paged') ),
+				'total' => $query->max_num_pages
+			) );
+			echo paginate_links(['base']);	   
     	}	
+    	
     		echo '<form action="" method="post">';
 			echo '<p>';
 			echo 'Tittle <br />';
@@ -37,6 +49,7 @@ class ajaxAutocomplete{
 			echo '</p>';
 			echo '<p><input type="submit" name="cf-submitted" value="Send"/></p>';
 			echo '</form>';
+			
     	
 	}
 
