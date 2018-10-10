@@ -19,17 +19,15 @@ class ajaxAutocomplete{
 			$query  = new WP_Query(  
     			array (  
         			'post_type' => 'post',
-        			'posts_per_page' => 5  
+        			'posts_per_page' => 5
     			)  
 			); 
 			$post = $query->posts;
 			foreach ($post as $value) {
-				if($value->post_title == $title){ 
+				if (strrchr($value->post_title,$title)){
 					echo $value->post_title.'</br>';
 					echo $value->post_content.'</br>';
-					echo '</br></br>';
 				}
-				
 			}		   
     	}	
     		echo '<form action="" method="post">';
@@ -49,12 +47,11 @@ class ajaxAutocomplete{
 		$post_type_query  = new WP_Query(  
     		array (  
         		'post_type'      => 'post',  
-        		'posts_per_page' => 5,
         		's' => $string 
     		)  
 		); 
 		$posts_array  = $post_type_query->posts;
-		foreach (wp_list_pluck( $posts_array, 'post_title' ) as $value) {
+		foreach (array_unique(wp_list_pluck( $posts_array, 'post_title' )) as $value) {
 			array_push($data, array("id" => $value, "label" => $value, "value"=> $value));
 		}
 		wp_send_json($data);
