@@ -59,10 +59,9 @@ class ajaxAutocomplete{
         		's' => $string 
     		)  
 		); 
-		$posts_array  = $post_type_query->posts;
-		foreach (array_unique(wp_list_pluck( $posts_array, 'post_title' )) as $value) {
-			array_push($data, array("id" => $value, "label" => $value, "value"=> $value));
-		}
+		while ( $post_type_query->have_posts() ) : $post_type_query->the_post();
+			array_push($data, array("id" => get_the_title(), "label" => get_the_title(), "value"=> get_the_title()));
+		endwhile;
 		wp_send_json($data);
     }
 	
