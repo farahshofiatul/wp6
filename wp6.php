@@ -17,7 +17,6 @@ class ajaxAutocomplete{
 
 	function field(){
 		$big = 999999999;
-	 	$format = empty( $permalinks ) ? '&page=%#%' : 'page/%#%/';
 	 	if ( isset( $_GET['cf-submitted'] ) ) {		
 	 		$title = $_GET["cf-title"];
 	 		$paged = ( get_query_var( 'paged' ) ) ? absint( get_query_var( 'paged' ) ) : 1;
@@ -28,15 +27,12 @@ class ajaxAutocomplete{
         			's' => $title,
         			'paged' => $paged
     			)  
-			); 
-			$post = $query->posts;
-			foreach ($post as $value) {
-				echo $value->post_title.'</br>';
-				echo $value->post_content.'</br>';
-			}	
+			);
+			while ( $query->have_posts() ) : $query->the_post();
+				echo get_the_title().'</br>';
+				echo get_the_content().'</br>';
+			endwhile;
 			echo paginate_links( array(
-				'base' => str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
-				'format' => '/page/%#%',
 				'current' => max( 1, get_query_var('paged') ),
 				'total' => $query->max_num_pages
 			) );   
