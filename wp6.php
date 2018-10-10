@@ -15,10 +15,11 @@ class ajaxAutocomplete{
 
 
 	function field(){
-	 	if ( isset( $_POST['cf-submitted'] ) ) {
-	 		$big = 999999999;
-	 		$format = empty( $permalinks ) ? '&page=%#%' : 'page/%#%/';
-	 		$title = $_POST["cf-title"];
+		$big = 999999999;
+	 	$format = empty( $permalinks ) ? '&page=%#%' : 'page/%#%/';
+	 	if ( isset( $_GET['cf-submitted'] ) ) {
+	 		
+	 		$title = $_GET["cf-title"];
 	 		$paged = ( get_query_var( 'paged' ) ) ? absint( get_query_var( 'paged' ) ) : 1;
 			$query  = new WP_Query(  
     			array (  
@@ -41,7 +42,7 @@ class ajaxAutocomplete{
 			) );   
     	}	
     	
-    		echo '<form action="" method="post">';
+    		echo '<form action="" method="get">';
 			echo '<p>';
 			echo 'Tittle <br />';
 			echo '<input type="text" name="cf-title"  id="s" value="" size="40" />';
