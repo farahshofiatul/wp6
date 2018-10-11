@@ -16,14 +16,13 @@ class ajaxAutocomplete{
 
 
 	function field(){
-		$big = 999999999;
 	 	if ( isset( $_GET['cf-submitted'] ) ) {		
 	 		$title = $_GET["cf-title"];
 	 		$paged = ( get_query_var( 'paged' ) ) ? absint( get_query_var( 'paged' ) ) : 1;
 			$query  = new WP_Query(  
     			array (  
         			'post_type' => 'post',
-        			'posts_per_page' => 3,
+        			'posts_per_page' => 5,
         			's' => $title,
         			'paged' => $paged
     			)  
@@ -36,8 +35,7 @@ class ajaxAutocomplete{
 				'current' => max( 1, get_query_var('paged') ),
 				'total' => $query->max_num_pages
 			) );   
-    	}	
-    	
+    	}		
     		echo '<form action="" method="get">';
 			echo '<p>';
 			echo 'Tittle <br />';
@@ -45,8 +43,6 @@ class ajaxAutocomplete{
 			echo '</p>';
 			echo '<p><input type="submit" name="cf-submitted" value="Send"/></p>';
 			echo '</form>';
-			
-    	
 	}
 
 	public function my_action() {
@@ -66,7 +62,7 @@ class ajaxAutocomplete{
     }
 	
 	public function autocomplete_enqueue_scripts() {
-		wp_enqueue_style( 'auto-complete-style', '//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css', array('stm-theme-style') ); 		
+		//wp_enqueue_style( 'auto-complete-style', '//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css', array('stm-theme-style') ); 		
 		wp_enqueue_script( 'jquery-ui-autocomplete' );
 		wp_enqueue_script( 'jquery' );
 		wp_enqueue_script('autocomplete-js-2', plugin_dir_url( __FILE__ ).'js/wp6.js', array('jquery'));
